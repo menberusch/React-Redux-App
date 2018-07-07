@@ -1,8 +1,13 @@
 import React from "react";
 
-const Todo = ({task, removeTodo}) => (
+const Todo = ({todo, removeTodo, toggleTodo}) => (
   <li>
-    {task}
+    <span 
+      onClick={toggleTodo}
+      style={{textDecoration: todo.completed ? 'line-through' : 'none'}}
+    >
+      {todo.task}
+    </span>
     <button onClick={removeTodo}>X</button>
   </li>
 );

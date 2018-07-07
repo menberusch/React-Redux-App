@@ -29,12 +29,22 @@ class TodoList extends Component {
     this.props.dispatch({
       type: 'REMOVE_TODO',
       id
-    })
+    });
+  }
+
+  toggleTodo(id) {
+    this.props.dispatch({
+      type: 'TOGGLE_TODO',
+      id
+    });
   }
 
   render() {
     let todos = this.props.todos.map((todo, i) => (
-      <Todo removeTodo={this.removeTodo.bind(this, todo.id)} key={i} task={todo.task} />
+      <Todo 
+        removeTodo={this.removeTodo.bind(this, todo.id)} 
+        toggleTodo={this.toggleTodo.bind(this, todo.id)}
+        key={i} todo={todo} />
     ));
     return(
       <div>

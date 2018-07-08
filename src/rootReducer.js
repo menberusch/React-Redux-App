@@ -1,42 +1,23 @@
-import {ADD_TODO, REMOVE_TODO, TOGGLE_TODO} from './actionCreators';
+import {ADD_TODO, REMOVE_TODO, TOGGLE_TODO, GET_TODOS} from './actionCreators';
 
 const initialState = {
-  todos: [
-    {
-      task: 'Eat',
-      id: 0,
-      completed: true
-    }, 
-    {
-      task: 'Fuck',
-      id: 1,
-      completed: false
-    },
-    {
-      task: 'Win',
-      id: 2,
-      completed: false
-    }
-  ],
-  id: 2
+  todos: []
 };
 
 export default function rootReducer(state = initialState, action) {
   let todos;
+  console.log(action);
   switch(action.type) {
+    case GET_TODOS:
+      return {...state, todos: action.data}
     case ADD_TODO:
-      let newState = {...state};
-      newState.id++;
-      return {
-        ...state,
-        todos: [...newState.todos, {task: action.todo, id: newState.id}]
-      };
+      return {...state, todos: [...state.todos, action.todo]}
     case REMOVE_TODO:
-      todos = state.todos.filter(todo => todo.id !== action.id);
+      todos = state.todos.filter(todo => todo._id !== action.id);
       return {...state, todos};
     case TOGGLE_TODO:
       todos = state.todos.map(todo => {
-        if(todo.id === action.id) todo.completed = !todo.completed;
+        if(todo._id === action.id) todo.completed = !todo.completed;
         return todo;
       });
       return {...state, todos};

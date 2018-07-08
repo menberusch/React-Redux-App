@@ -1,69 +1,46 @@
 import React, {Component} from 'react';
 import Todo from './Todo';
+import NewTodoForm from './NewTodoForm';
 import {connect} from 'react-redux';
+import { addTodo, removeTodo, toggleTodo, getTodos } from './actionCreators'
+import { Route } from 'react-router-dom';
 
 class TodoList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todo: ''
-    };
-  }
-  
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.dispatch({
-      type: 'ADD_TODO',
-      todo: this.state.todo
-    });
-    e.target.reset();
+  componentDidMount() {
+    this.props.getTodos();
   }
 
-  handleChange(e) {
-    this.setState({
-      todo: e.target.value
-    });
+  handleAdd(task) {
+    this.props.addTodo(task);
   }
 
   removeTodo(id) {
-    this.props.dispatch({
-      type: 'REMOVE_TODO',
-      id
-    });
+    this.props.removeTodo(id);
   }
 
-  toggleTodo(id) {
-    this.props.dispatch({
-      type: 'TOGGLE_TODO',
-      id
-    });
+  toggleTodo(id, completed) {
+    this.props.toggleTodo(id, completed);
   }
 
   render() {
+    console.log(this.props.todos);
     let todos = this.props.todos.map((todo, i) => (
       <Todo 
-        removeTodo={this.removeTodo.bind(this, todo.id)} 
-        toggleTodo={this.toggleTodo.bind(this, todo.id)}
-        key={i} todo={todo} />
+        removeTodo={this.removeTodo.bind(this, todo._id)} 
+        toggleTodo={this.toggleTodo.bind(this, todo._id, todo.completed)}
+        key={todo._id} todo={todo} />
     ));
-    return(
+    return (
       <div>
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <label htmlFor="todo">Todo: </label>
-          <input 
-            type="text" 
-            name="todo" 
-            id="todo"
-            onChange={this.handleChange.bind(this)}
-          />
-          <button>Add</button>
-        </form>
-        <ul>{todos}</ul>
+        <Route path="/todos/new" component={props => (
+          <NewTodoForm {...props} handleSubmit={this.handleAdd.bind(this)} />
+        )} />
+        <Route exact path="/todos" component={() => <ul>{todos}</ul>} />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = reduxState => ({ todos: reduxState.todos });
 
-export default connect(mapStateToProps)(TodoList);
+export default connect(mapStateToProps, {addTodo, removeTodo, toggleTodo, getTodos})(TodoList);

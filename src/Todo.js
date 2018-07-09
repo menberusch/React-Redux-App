@@ -1,8 +1,6 @@
 import React from "react";
 
-const Todo = ({todo, removeTodo, toggleTodo}) => {
-  console.log(todo);
-  return (
+const Todo = ({todo, removeTodo, toggleTodo}) => (
   <li>
     <span 
       onClick={toggleTodo}
@@ -12,6 +10,6 @@ const Todo = ({todo, removeTodo, toggleTodo}) => {
     </span>
     <button onClick={removeTodo}>X</button>
   </li>
-)};
+);
 
 export default Todo;

@@ -13,7 +13,7 @@ class App extends Component {
           <Link to="/todos">See my todos!</Link>
         </p>
         <p>
-          <Link to="/todos/new">Add a todos!</Link>
+          <Link to="/todos/new">Add a todo!</Link>
         </p>
         <Route path="/todos" component={TodoList} />
         <Route exact path="/" render={() => <Redirect to="/todos" />} />

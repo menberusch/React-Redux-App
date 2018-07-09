@@ -6,7 +6,7 @@ const initialState = {
 
 export default function rootReducer(state = initialState, action) {
   let todos;
-  console.log(action);
+  
   switch(action.type) {
     case GET_TODOS:
       return {...state, todos: action.data}

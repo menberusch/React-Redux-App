@@ -10,30 +10,18 @@ class TodoList extends Component {
     this.props.getTodos();
   }
 
-  handleAdd(task) {
-    this.props.addTodo(task);
-  }
-
-  removeTodo(id) {
-    this.props.removeTodo(id);
-  }
-
-  toggleTodo(id, completed) {
-    this.props.toggleTodo(id, completed);
-  }
-
   render() {
-    console.log(this.props.todos);
-    let todos = this.props.todos.map((todo, i) => (
+    let todos = this.props.todos.map((todo) => (
       <Todo 
-        removeTodo={this.removeTodo.bind(this, todo._id)} 
-        toggleTodo={this.toggleTodo.bind(this, todo._id, todo.completed)}
-        key={todo._id} todo={todo} />
+        removeTodo={() => this.props.removeTodo(todo._id)} 
+        toggleTodo={() => this.props.toggleTodo(todo)}
+        key={todo._id} todo={todo} 
+      />
     ));
     return (
       <div>
         <Route path="/todos/new" component={props => (
-          <NewTodoForm {...props} handleSubmit={this.handleAdd.bind(this)} />
+          <NewTodoForm {...props} handleSubmit={task => this.props.addTodo(task)} />
         )} />
         <Route exact path="/todos" component={() => <ul>{todos}</ul>} />
       </div>

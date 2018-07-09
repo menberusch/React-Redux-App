@@ -3,8 +3,6 @@ import React, {Component} from 'react';
 export default class NewTodoForm extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.state = {
       task: ''
     };
@@ -16,16 +14,15 @@ export default class NewTodoForm extends Component {
     this.props.history.push('/todos');
   }
 
-  handleChange(e) {
-    this.setState({
-      task: e.target.value
-    });
-  }
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit.bind(this)}>
         <label htmlFor="task">Task: </label>
-        <input type="text" name="task" id="task" onChange={this.handleChange} />
+        <input 
+          type="text" 
+          name="task" 
+          id="task"
+          onChange={e => this.setState({ task: e.target.value })} />
         <button>Add a Todo!</button>
       </form>
     );

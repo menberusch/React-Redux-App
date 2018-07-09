@@ -5,7 +5,10 @@ mongoose.Promise = Promise;
 
 const todoSchema = new mongoose.Schema({
   task: String,
-  completed: Boolean
+  completed: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const Todo = mongoose.model('Todo', todoSchema);

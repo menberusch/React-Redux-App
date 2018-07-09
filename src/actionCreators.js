@@ -52,7 +52,7 @@ export function addTodo(task) {
       body: JSON.stringify({ task, completed: false })
     })
     .then(res => res.json())
-    .then(data =>{ console.log(data); return dispatch(handleAdd(data))})
+    .then(data => dispatch(handleAdd(data)))
     .catch(err => console.log('Something went wrong', err))
   };
 }
@@ -62,14 +62,12 @@ export function removeTodo(id) {
     return fetch(API_URL+id, {
       method: 'DELETE'
     })
-    .then(res => res.json())
-    .then(data => dispatch(handleRemove(id)))
+    .then(() => dispatch(handleRemove(id)))
     .catch(err => console.log('Something went wrong', err))
   }
 }
 
-export function toggleTodo(id, completed) {
-  console.log(completed);
+export function toggleTodo({_id: id, completed}) {
   return dispatch => {
     return fetch(API_URL+id, {
       method: 'PUT',
@@ -78,8 +76,7 @@ export function toggleTodo(id, completed) {
       }),
       body: JSON.stringify({ completed: !completed })
     })
-    .then(res => res.json())
-    .then(data => { console.log(data); return dispatch(handleToggleCompleted(id))})
+    .then(() => dispatch(handleToggleCompleted(id)))
     .catch(err => console.log('Something went wrong', err))
   }
 }
